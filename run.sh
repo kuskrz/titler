@@ -1,0 +1,1 @@
+docker run --name titler -d --rm -p 8080:8080 titler
