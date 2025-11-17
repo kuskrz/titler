@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"kus/krzysztof/titler/environment"
+	"kus/krzysztof/titler/httpclient"
 	"kus/krzysztof/titler/logging"
 	"kus/krzysztof/titler/requests"
 	"kus/krzysztof/titler/responses"
@@ -30,7 +31,7 @@ func GetTag(w http.ResponseWriter, r *http.Request) {
 	logging.Logf(logging.DEBUG, "Request from: %s %s %s\n", r.RemoteAddr, r.Method, r.URL.Path)
 	logging.Log(logging.DEBUG, input.Url)
 
-	resp, err := http.Get(input.Url)
+	resp, err := httpclient.HttpClient.Get(input.Url)
 	if err != nil {
 		logging.Log(logging.ERROR, err.Error())
 		response = responses.ResponseData{Status: "failure", Tag: environment.EnvVars["TAG"], TagValue: err.Error()}

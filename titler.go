@@ -3,6 +3,7 @@ package main
 import (
 	"kus/krzysztof/titler/environment"
 	"kus/krzysztof/titler/handlers"
+	"kus/krzysztof/titler/httpclient"
 	"kus/krzysztof/titler/logging"
 	"net/http"
 )
@@ -10,6 +11,8 @@ import (
 func main() {
 	environment.InitEnv()
 	logging.InitLogging()
+	httpclient.InitClient()
+
 	logging.Log(logging.ERROR, "MNM: "+"Start \xF0\x9F\xAA\xBF")
 	for n, v := range environment.EnvVars {
 		logging.Log(logging.ERROR, "ENV: "+n+"="+v)
