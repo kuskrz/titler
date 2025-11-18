@@ -7,6 +7,7 @@ import (
 	"net"
 	"net/http"
 	"os"
+	"path/filepath"
 	"time"
 )
 
@@ -31,7 +32,7 @@ func createPooledClient() *http.Client {
 		logging.Log(logging.ERROR, "Cannot read directory: "+CERT_PATH)
 	}
 	for _, cert := range userCerts {
-		caCert, err := os.ReadFile(CERT_PATH + "/" + cert.Name())
+		caCert, err := os.ReadFile(filepath.Join(CERT_PATH, cert.Name()))
 		if err == nil {
 			if ok := caCertPool.AppendCertsFromPEM(caCert); ok {
 				logging.Log(logging.INFO, "Loaded certificate from: "+cert.Name())
