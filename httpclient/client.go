@@ -10,7 +10,7 @@ import (
 	"time"
 )
 
-const CERT_PATH = "/tmp/kk.crt"
+const CERT_PATH = "/tmp/certs"
 
 var HttpClient *http.Client
 
@@ -20,14 +20,25 @@ func InitClient() {
 
 func createPooledClient() *http.Client {
 	var caCertPool *x509.CertPool
-	caCert, err := os.ReadFile(CERT_PATH)
-	if err == nil {
-		caCertPool, err = x509.SystemCertPool()
-		if err != nil {
-			logging.Log(logging.ERROR, "FATAL error, cannot read root CA certificates")
-			os.Exit(1)
+
+	caCertPool, err := x509.SystemCertPool()
+	if err != nil {
+		logging.Log(logging.ERROR, "FATAL error, cannot read root CA certificates")
+		os.Exit(1)
+	}
+	userCerts, err := os.ReadDir(CERT_PATH)
+	if err != nil {
+		logging.Log(logging.ERROR, "Cannot read directory: "+CERT_PATH)
+	}
+	for _, cert := range userCerts {
+		caCert, err := os.ReadFile(CERT_PATH + "/" + cert.Name())
+		if err == nil {
+			if ok := caCertPool.AppendCertsFromPEM(caCert); ok {
+				logging.Log(logging.INFO, "Loaded certificate from: "+cert.Name())
+			}
+		} else {
+			logging.Log(logging.DEBUG, "Cannot read: "+cert.Name())
 		}
-		caCertPool.AppendCertsFromPEM(caCert)
 	}
 
 	transport := &http.Transport{
