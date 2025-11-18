@@ -9,15 +9,13 @@ import (
 )
 
 func main() {
-	logging.Log(logging.ERROR, "MNM: "+"Start \xF0\x9F\xAA\xBF")
-
-	environment.InitEnv()
 	logging.InitLogging()
-	httpclient.InitClient()
-
+	environment.InitEnv()
 	for n, v := range environment.EnvVars {
 		logging.Log(logging.ERROR, "ENV: "+n+"="+v)
 	}
+	logging.Log(logging.ERROR, "MNM: "+"Start \xF0\x9F\xAA\xBF")
+	httpclient.InitClient()
 
 	http.HandleFunc("/", handlers.GetTag)
 	end_err := http.ListenAndServe(":8080", nil)
