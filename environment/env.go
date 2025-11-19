@@ -3,8 +3,10 @@ package environment
 import "os"
 
 var EnvVars map[string]string = map[string]string{
-	"TAG":      "title",
-	"LOGLEVEL": "",
+	"TAG":        "title",
+	"LOGLEVEL":   "",
+	"PROXY_HOST": "",
+	"PROXY_PORT": "",
 }
 
 func InitEnv() {

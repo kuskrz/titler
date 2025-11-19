@@ -11,10 +11,10 @@ import (
 func main() {
 	logging.InitLogging()
 	environment.InitEnv()
+	logging.Log(logging.ERROR, "MNM: "+"Start \xF0\x9F\xAA\xBF")
 	for n, v := range environment.EnvVars {
 		logging.Log(logging.ERROR, "ENV: "+n+"="+v)
 	}
-	logging.Log(logging.ERROR, "MNM: "+"Start \xF0\x9F\xAA\xBF")
 	httpclient.InitClient()
 
 	http.HandleFunc("/", handlers.GetTag)

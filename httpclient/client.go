@@ -3,9 +3,11 @@ package httpclient
 import (
 	"crypto/tls"
 	"crypto/x509"
+	"kus/krzysztof/titler/environment"
 	"kus/krzysztof/titler/logging"
 	"net"
 	"net/http"
+	"net/url"
 	"os"
 	"path/filepath"
 	"time"
@@ -43,7 +45,7 @@ func createPooledClient() *http.Client {
 	}
 
 	transport := &http.Transport{
-		Proxy: http.ProxyFromEnvironment,
+		Proxy: getProxyURL,
 		DialContext: (&net.Dialer{
 			Timeout:   30 * time.Second,
 			KeepAlive: 30 * time.Second,
@@ -63,4 +65,14 @@ func createPooledClient() *http.Client {
 		Transport: transport,
 		Timeout:   30 * time.Second,
 	}
+}
+
+func getProxyURL(req *http.Request) (*url.URL, error) {
+	host := environment.EnvVars["PROXY_HOST"]
+	port := environment.EnvVars["PROXY_PORT"]
+	if host != "" && port != "" {
+		//return url.Parse(req.URL.Scheme + "://" + host + ":" + port)
+		return url.Parse("http" + "://" + host + ":" + port)
+	}
+	return nil, nil
 }
