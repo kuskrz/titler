@@ -71,8 +71,7 @@ func getProxyURL(req *http.Request) (*url.URL, error) {
 	host := environment.EnvVars["PROXY_HOST"]
 	port := environment.EnvVars["PROXY_PORT"]
 	if host != "" && port != "" {
-		//return url.Parse(req.URL.Scheme + "://" + host + ":" + port)
-		return url.Parse("http" + "://" + host + ":" + port)
+		return url.Parse("http://" + host + ":" + port)
 	}
 	return nil, nil
 }
