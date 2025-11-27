@@ -7,6 +7,8 @@ var EnvVars map[string]string = map[string]string{
 	"LOGLEVEL":   "",
 	"PROXY_HOST": "",
 	"PROXY_PORT": "",
+	"BASIC_USER": "",
+	"BASIC_PASS": "",
 }
 
 func InitEnv() {
